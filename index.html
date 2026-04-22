@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Singapore Hawker Culture Guide | English</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: #0D0D0D; color: #F0EDE8; }
+    img { display: block; max-width: 100%; }
+    button { font: inherit; }
+    a { color: inherit; }
+
+    :root {
+      --gold: #D4A843;
+      --bg: #0D0D0D;
+      --bg2: #0A0A0A;
+      --line: #1E1E1E;
+      --muted: #888;
+      --text: #C8C4BE;
+      --white: #F0EDE8;
+      --content-max: 1180px;
+      --content-narrow: 980px;
+    }
+
+    .page-shell {
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: var(--bg);
+    }
+
+    .content-wrap {
+      width: min(var(--content-max), calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .content-wrap.narrow {
+      width: min(var(--content-narrow), calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .section-pad {
+      padding: clamp(44px, 7vw, 96px) 0;
+      border-bottom: 1px solid #1A1A1A;
+    }
+
+    .section-alt {
+      background: var(--bg2);
+    }
+
+    .hero-inner {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      padding-bottom: clamp(52px, 8vw, 72px);
+    }
+
+    .hero-copy {
+      max-width: 760px;
+    }
+
+    .hero-title {
+      font-family: "Noto Serif JP", serif;
+      font-size: clamp(32px, 6vw, 72px);
+      line-height: 1.18;
+      margin: 0 0 14px;
+      word-break: keep-all;
+    }
+
+    .hero-sub {
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: clamp(14px, 2vw, 20px);
+      color: #999;
+      margin-bottom: 20px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 28px 0 36px;
+    }
+
+    .dish-category {
+      margin-bottom: clamp(40px, 5vw, 60px);
+    }
+
+    .dish-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .dish-card {
+      border: 1px solid #222;
+      background: #0F0F0F;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+
+    .dish-card-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+
+    .dish-image-wrap {
+      position: relative;
+      min-height: 220px;
+      height: clamp(220px, 34vw, 320px);
+      overflow: hidden;
+      background: #111;
+    }
+
+    .dish-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center center;
+      filter: brightness(0.82);
+    }
+
+    .section-photo {
+      width: 100%;
+      height: clamp(220px, 32vw, 360px);
+      object-fit: cover;
+      object-position: center center;
+      filter: brightness(0.76);
+      margin-bottom: 28px;
+      border-radius: 2px;
+    }
+
+    .timeline-wrap {
+      max-width: 920px;
+    }
+
+    .rules-grid,
+    .payment-grid,
+    .tips-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .top10-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .visit-strategy,
+    .tips-box,
+    .history-box,
+    .price-box,
+    .important-box {
+      max-width: 920px;
+    }
+
+    .body-copy {
+      font-size: clamp(14px, 1.2vw, 16px);
+      line-height: 2;
+      color: var(--text);
+    }
+
+    .small-copy {
+      font-size: clamp(11px, 1vw, 12px);
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      width: min(var(--content-narrow), calc(100vw - 32px));
+      margin: 0 auto;
+    }
+
+    .desktop-rail {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 56px;
+      height: 100vh;
+      background: var(--bg);
+      border-right: 1px solid #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      z-index: 200;
+      overflow: hidden;
+    }
+
+    .desktop-main {
+      margin-left: 56px;
+    }
+
+    .mobile-bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(13,13,13,0.97);
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 200;
+      padding: 6px 0 10px;
+    }
+
+    .mobile-main {
+      padding-bottom: 58px;
+    }
+
+    @media (min-width: 900px) {
+      .metric-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .dish-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dish-card-inner {
+        grid-template-columns: minmax(320px, 40%) 1fr;
+      }
+
+      .dish-image-wrap {
+        height: 100%;
+        min-height: 280px;
+      }
+
+      .rules-grid,
+      .payment-grid,
+      .tips-grid,
+      .top10-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .dish-card-inner {
+        grid-template-columns: minmax(360px, 38%) 1fr;
+      }
+
+      .rules-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .payment-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .tips-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const HERO_IMG = "https://commons.wikimedia.org/wiki/Special:FilePath/Image%20of%20a%20Singapore%20hawker%20center.jpg";
+    const HISTORY_IMG = "https://commons.wikimedia.org/wiki/Special:FilePath/Maxwell%20Food%20Centre%20heritage%20signboard%20-%202022-08-13.jpg";
+    const RULES_IMG = "https://commons.wikimedia.org/wiki/Special:FilePath/Soon%20Heng%20Cooked%20Food%20at%20Changi%20Village%20Food%20Centre%2C%20Singapore%20-%2020070211.jpg";
+    const CHEAP_IMG = "https://commons.wikimedia.org/wiki/Special:FilePath/Hawker%20Center%2C%20Singapore.jpg";
+    const PAY_IMG = "https://commons.wikimedia.org/wiki/Special:FilePath/Drink%20stall%20at%20Changi%20Village%20Food%20Centre%2C%20Singapore%20-%2020070211.jpg";
+    const FOOD_IMG = "https://commons.wikimedia.org/wiki/Special:FilePath/Interior%20of%20Lau%20Pa%20Sat%2C%202018%20%2808%29.jpg";
+
+    const NAV_ITEMS = [
+      { id: "hero", en: "TOP", ja: "TOP" },
+      { id: "history", en: "HISTORY", ja: "History" },
+      { id: "dishes", en: "DISHES", ja: "Dishes" },
+      { id: "rules", en: "RULES", ja: "Rules" },
+      { id: "why", en: "PRICE", ja: "Prices" },
+      { id: "payment", en: "PAY", ja: "Payment" },
+      { id: "top10", en: "TOP10", ja: "Top 10" },
+      { id: "tips", en: "TIPS", ja: "Tips" },
+    ];
+
+    const HAWKER_TOP10 = [
+      { num: "01", name: "Maxwell Food Centre", area: "Chinatown / Tanjong Pagar", icon: "🍚", tag: "Michelin picks, very visitor-friendly", note: "Founded in 1928. Home to the world-famous Tian Tian Hainanese Chicken Rice. One of Singapore’s oldest hawker centres, with more than 100 stalls. Anthony Bourdain and Gordon Ramsay both visited." },
+      { num: "02", name: "Lau Pa Sat", area: "CBD / Raffles Place", icon: "🏛️", tag: "24 hours, landmark building", note: "A Victorian cast-iron structure dating back to 1835, built with ironwork shipped from Scotland. At night, Satay Street comes alive and offers one of Singapore’s best satay experiences. Seats around 2,500 people." },
+      { num: "03", name: "Old Airport Road Food Centre", area: "Geylang / Mountbatten", icon: "✈️", tag: "Local favourite, iconic old-school stalls", note: "One of Singapore’s most legendary hawker centres, active since the 1970s. More than 160 stalls, including classics such as Nam Sing Hokkien Mee. Deeply loved by locals." },
+      { num: "04", name: "Chinatown Complex", area: "Chinatown", icon: "🌟", tag: "Home of the first Michelin-star hawker", note: "Singapore’s largest hawker centre, with more than 220 food stalls. Liao Fan Soya Sauce Chicken Rice was the world’s first Michelin-starred hawker stall and is now listed in Bib Gourmand." },
+      { num: "05", name: "Tiong Bahru Market & Food Centre", area: "Tiong Bahru", icon: "🥣", tag: "Heritage district, breakfast favourite", note: "A historic hawker centre in a 1930s estate. Famous for Jian Bo Shui Kueh, a Bib Gourmand favourite for chwee kueh. Around 342 stalls across two levels." },
+      { num: "06", name: "Newton Food Centre", area: "Newton / Orchard", icon: "🎬", tag: "Featured in Crazy Rich Asians", note: "An open-air hawker centre dating from 1971. Featured in Crazy Rich Asians and popular with visitors. Known for seafood, especially chilli crab, with a lively night atmosphere." },
+      { num: "07", name: "East Coast Lagoon Food Village", area: "East Coast / Bedok", icon: "🏖️", tag: "Singapore’s beachside hawker", note: "Singapore’s best-known beachside hawker setting. A great place for satay, BBQ stingray, and oyster omelette with a sea breeze." },
+      { num: "08", name: "Tekka Centre", area: "Little India", icon: "🍛", tag: "Indian food hub, halal-friendly options", note: "A major food hub at the entrance to Little India. Known for biryani, Indian curries, and roti prata, with many halal-certified stalls." },
+      { num: "09", name: "Amoy Street Food Centre", area: "Tanjong Pagar / CBD", icon: "🏙️", tag: "CBD lunch favourite, old meets new", note: "Located near the CBD and packed at lunchtime. A mix of traditional hawker stalls and newer concepts. Especially busy on weekday lunches." },
+      { num: "10", name: "Chomp Chomp Food Centre", area: "Serangoon Gardens", icon: "🔥", tag: "Local classic with strong night energy", note: "A beloved local hawker centre in the north of Singapore. Known for charcoal-grilled stingray, satay, and chicken wings. Best experienced at night." },
+    ];
+
+    const DISHES_DATA = [
+      {
+        category: "🇨🇳 Chinese",
+        color: "#C0392B",
+        items: [
+          {
+            name: "Hainanese Chicken Rice",
+            en: "Hainanese Chicken Rice",
+            origin: "🇨🇳 Hainan, China",
+            price: "S$5–8",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Hainanese%20chicken%20rice%20in%20Singapore.jpg",
+            desc: "Often called Singapore’s national dish. Hainanese migrants adapted Wenchang chicken traditions into a local classic: poached chicken served with fragrant rice cooked in stock. Chilli, ginger, and dark soy sauce complete the set. It evolved into its distinct Singapore form in the early 20th century.",
+          },
+          {
+            name: "Char Kway Teow",
+            en: "Char Kway Teow",
+            origin: "🇨🇳 Guangdong, China (Teochew)",
+            price: "S$5–8",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Char%20kway%20teow.JPG",
+            desc: "A wok-fried noodle dish once associated with manual workers. Teochew and Hokkien migrants popularised it among dock workers in the 1950s and 1960s. Cockles, prawns, Chinese sausage, and egg are common, and the smoky wok hei aroma is essential.",
+          },
+          {
+            name: "Hokkien Mee",
+            en: "Hokkien Mee",
+            origin: "🇨🇳 Fujian, China",
+            price: "S$4–8",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Singapore%20style%20Hokkien%20mee.jpg",
+            desc: "A rich noodle dish made by braising yellow noodles and rice vermicelli in a stock built from prawn heads and pork bones. It traces back to Hokkien migrants selling it around Rochor Road in the 1950s. Usually eaten with sambal and lime.",
+          },
+          {
+            name: "Bak Kut Teh",
+            en: "Bak Kut Teh",
+            origin: "🇨🇳 Fujian, China",
+            price: "S$7–12",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Bak%20Kut%20Teh%2C%20Singapore.JPG",
+            desc: "A peppery pork rib soup simmered with garlic and herbs. It is often linked to Hokkien labourers in the late 19th century who ate it for strength. Singapore’s version is usually lighter and more pepper-forward than the herbal Malaysian style.",
+          },
+          {
+            name: "Rojak",
+            en: "Rojak",
+            origin: "🇸🇬 Singapore (multicultural blend)",
+            price: "S$4–6",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Rojak%20in%20Singapore.jpg",
+            desc: "Named after the Malay word for “mixed.” This salad-like dish combines pineapple, yam, bean sprouts, fried tofu, and dough fritters in a sweet-savoury sauce made with prawn paste, sugar, and lime, then topped with peanuts. It reflects a distinctly Singapore mix of Chinese and Malay food culture.",
+          },
+        ],
+      },
+      {
+        category: "🇲🇾 Malay / Peranakan",
+        color: "#16A085",
+        items: [
+          {
+            name: "Nasi Lemak",
+            en: "Nasi Lemak",
+            origin: "🇲🇾 Malay Peninsula",
+            price: "S$4–9",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Nasi%20lemak%20on%20banana%20leaf.jpg",
+            desc: "A Malay dish centred on fragrant rice cooked with coconut milk and pandan. The name loosely means “rich rice.” Sambal, anchovies, peanuts, egg, and cucumber are the classic sides. Once a rural breakfast on the Malay Peninsula, it is now loved across Singapore.",
+          },
+          {
+            name: "Satay",
+            en: "Satay",
+            origin: "🇮🇩 Indonesia",
+            price: "S$6–12 (from 5 sticks)",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Satay.JPG",
+            desc: "Skewered chicken, beef, or mutton marinated with spices and grilled over charcoal. It originated in Indonesia, often linked to Java, and arrived in Singapore with Indonesian and Malay migrants in the 19th century. It is usually served with peanut sauce, ketupat, and lime. Lau Pa Sat’s Satay Street is especially well known.",
+          },
+          {
+            name: "Laksa",
+            en: "Laksa",
+            origin: "🇸🇬 Singapore (Peranakan culture)",
+            price: "S$4–8",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Laksa%20in%20Singapore.JPG",
+            desc: "A signature Peranakan noodle soup made with a rich coconut curry broth and rice noodles. It grew out of the blended culture of Chinese migrants and Malay communities. Common toppings include prawns, fish cake, tofu puffs, and bean sprouts, finished with sambal.",
+          },
+        ],
+      },
+      {
+        category: "🇮🇳 Indian",
+        color: "#E67E22",
+        items: [
+          {
+            name: "Roti Prata",
+            en: "Roti Prata",
+            origin: "🇮🇳 South India",
+            price: "S$1.5–4",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Roti%20Prata%20Curry%20Large.JPG",
+            desc: "A flaky flatbread cooked with ghee. It descends from South Indian parotta and was brought to Singapore by Tamil migrants in the 19th century. Crisp outside and chewy inside, it is usually eaten with fish curry or dhal. Egg and cheese versions are also popular.",
+          },
+          {
+            name: "Fish Head Curry",
+            en: "Fish Head Curry",
+            origin: "🇸🇬 Singapore (Indian-Chinese fusion)",
+            price: "S$18–35 (whole head)",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Fish%20head%20curry%20in%20Singapore%20-%2020130315.jpg",
+            desc: "A Singapore original that simmers a whole fish head in a South Indian-style curry. It is often credited to M. J. Gomez in the 1950s, blending Indian curry traditions with the Chinese preference for fish head. Red snapper is a popular choice.",
+          },
+        ],
+      },
+      {
+        category: "☕ Singapore Originals",
+        color: "#8E44AD",
+        items: [
+          {
+            name: "Chilli Crab",
+            en: "Chilli Crab",
+            origin: "🇸🇬 Singapore",
+            price: "S$50–100 (market price, 1 kg)",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Chilli%20Crab.JPG",
+            desc: "Often called Singapore’s national seafood dish. It is widely linked to Cher Yam Tian, who began cooking mud crabs in a sweet-spicy tomato-based sauce in the 1950s. The rich sauce is usually mopped up with fried or steamed mantou. It is more common at seafood restaurants than hawker stalls.",
+          },
+          {
+            name: "Kaya Toast",
+            en: "Kaya Toast",
+            origin: "🇸🇬 Singapore (British-Malay influence)",
+            price: "S$2–4",
+            img: "https://commons.wikimedia.org/wiki/Special:FilePath/Kaya%20Toast%20with%20Coffee%20Cropped.jpg",
+            desc: "A classic Singapore breakfast of crisp toast filled with kaya, a coconut-and-egg jam, plus butter. It is often paired with soft-boiled eggs seasoned with soy sauce and pepper, together with kopi or teh.",
+          },
+        ],
+      },
+    ];
+
+    const GOLD = "#D4A843";
+    const BG = "#0D0D0D";
+    const BG2 = "#0A0A0A";
+    const LINE = "#1E1E1E";
+    const MUTED = "#888";
+    const TEXT = "#C8C4BE";
+    const WHITE = "#F0EDE8";
+
+    function useViewport() {
+      const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
+      useEffect(() => {
+        const h = () => setW(window.innerWidth);
+        window.addEventListener("resize", h);
+        return () => window.removeEventListener("resize", h);
+      }, []);
+      return {
+        width: w,
+        isMobile: w < 640,
+        isTabletUp: w >= 900,
+        isDesktop: w >= 1200,
+      };
+    }
+
+    function SectionHeader({ num, ja, en, compact=false }) {
+      return (
+        <div style={{ marginBottom: compact ? 28 : 48 }}>
+          <div style={{ marginBottom: compact ? 18 : 36 }}>
+            <div style={{ fontFamily: "sans-serif", fontSize: 9, letterSpacing: 3, color: GOLD, textTransform: "uppercase", marginBottom: 8 }}>
+              {num}
+            </div>
+            <div style={{ fontSize: compact ? 20 : "clamp(22px,4vw,40px)", fontWeight: 700, lineHeight: 1.35, whiteSpace: "pre-wrap" }}>
+              {ja}
+            </div>
+            <div style={{ fontFamily: "'Georgia',serif", fontStyle: "italic", fontSize: 13, color: "#555", marginTop: 4 }}>
+              {en}
+            </div>
+          </div>
+          <div style={{ width: "100%", height: 1, background: LINE }} />
+        </div>
+      );
+    }
+
+    function TLItem({ year, title, text, compact=false }) {
+      return (
+        <div style={{ display: "flex", gap: compact ? 12 : 24, paddingBottom: 28 }}>
+          <div style={{ fontFamily: "sans-serif", fontSize: compact ? 14 : 20, color: GOLD, flexShrink: 0, width: compact ? 54 : 80, paddingTop: 2, fontWeight: 700, lineHeight: 1.2 }}>
+            {year}
+          </div>
+          <div style={{ flex: 1, paddingBottom: 20, borderBottom: `1px solid ${LINE}` }}>
+            <div style={{ fontSize: compact ? 13 : 15, fontWeight: 700, marginBottom: 5 }}>{title}</div>
+            <div style={{ fontSize: compact ? 12 : 13, lineHeight: 1.9, color: MUTED }}>{text}</div>
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const { isMobile, isTabletUp, isDesktop } = useViewport();
+      const [active, setActive] = useState("hero");
+      const [openCard, setOpenCard] = useState(null);
+
+      useEffect(() => {
+        const obs = new IntersectionObserver(
+          (entries) => entries.forEach((e) => {
+            if (e.isIntersecting) setActive(e.target.id);
+          }),
+          { threshold: 0.3 }
+        );
+
+        NAV_ITEMS.forEach(({ id }) => {
+          const el = document.getElementById(id);
+          if (el) obs.observe(el);
+        });
+
+        return () => obs.disconnect();
+      }, []);
+
+      const go = (id) => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+        setActive(id);
+      };
+
+      const body = { fontSize: isMobile ? 14 : 15, lineHeight: 2, color: TEXT };
+      const small = { fontSize: isMobile ? 11 : 12, lineHeight: 1.9, color: MUTED };
+      const infoBoxTitle = { fontFamily: "sans-serif", fontSize: 9, letterSpacing: 3, color: GOLD, marginBottom: 12, textTransform: "uppercase" };
+
+      const sectionPhotoStyle = {
+        width: "100%",
+        height: isMobile ? 220 : isDesktop ? 360 : 300,
+        objectFit: "cover",
+        objectPosition: "center center",
+        filter: "brightness(0.75)",
+        marginBottom: 28,
+      };
+
+      return (
+        <div className="page-shell" style={{ fontFamily: "'Noto Serif JP','Hiragino Mincho ProN',serif", background: BG, color: WHITE }}>
+          {!isMobile && (
+            <nav className="desktop-rail">
+              <div style={{ writingMode: "vertical-rl", fontFamily: "sans-serif", fontSize: 10, letterSpacing: 4, color: MUTED, marginBottom: 28, textTransform: "uppercase" }}>
+                Hawker
+              </div>
+              {NAV_ITEMS.map(({ id, en }) => (
+                <div key={id} onClick={() => go(id)} style={{ textAlign: "center", marginBottom: 2, cursor: "pointer" }}>
+                  <div style={{ width: 4, height: 4, borderRadius: "50%", background: active === id ? GOLD : "#333", margin: "3px auto", transition: "background .3s" }} />
+                  <div style={{ writingMode: "vertical-rl", fontSize: 8, letterSpacing: 2, color: active === id ? GOLD : "#444", padding: "8px 3px", textTransform: "uppercase", fontFamily: "sans-serif", transition: "color .3s" }}>
+                    {en}
+                  </div>
+                </div>
+              ))}
+            </nav>
+          )}
+
+          {isMobile && (
+            <nav className="mobile-bottom-nav">
+              {NAV_ITEMS.map(({ id, en }) => (
+                <div key={id} onClick={() => go(id)} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3, cursor: "pointer", padding: "2px 4px" }}>
+                  <div style={{ width: 3, height: 3, borderRadius: "50%", background: active === id ? GOLD : "#333", transition: "background .3s" }} />
+                  <div style={{ fontFamily: "sans-serif", fontSize: 8, letterSpacing: 1, color: active === id ? GOLD : "#444", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+                    {en}
+                  </div>
+                </div>
+              ))}
+            </nav>
+          )}
+
+          <div className={isMobile ? "mobile-main" : "desktop-main"}>
+            <section id="hero" style={{ position: "relative", minHeight: isMobile ? "100svh" : "92vh", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+              <img
+                src={HERO_IMG}
+                alt="hawker"
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: isDesktop ? "center 60%" : "center center", filter: "brightness(0.34)" }}
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(13,13,13,0.97) 0%, rgba(13,13,13,0.15) 55%)" }} />
+              <div className="hero-inner">
+                <div className="hero-copy">
+                  <div style={{ fontFamily: "sans-serif", fontSize: 9, letterSpacing: isMobile ? 3 : 6, color: GOLD, marginBottom: 12, textTransform: "uppercase" }}>
+                    Singapore Hawker Culture — Complete Guide
+                  </div>
+                  <h1 className="hero-title">
+                    Singapore<br />Hawker Centre<br />Guide
+                  </h1>
+                  <div className="hero-sub">The Soul of Singapore's Food Culture</div>
+                  <div className="badge-row">
+                    {[["UNESCO Intangible Heritage 2020", true], ["110+ hawker centres", false], ["About 13,000 stalls", false]].map(([b, gold]) => (
+                      <span key={b} style={{ border: `1px solid ${gold ? GOLD : "#3a3a3a"}`, color: gold ? GOLD : "#555", fontSize: 9, padding: "3px 8px", letterSpacing: 1, fontFamily: "sans-serif", whiteSpace: "nowrap" }}>
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="history" className="section-pad">
+              <div className="content-wrap narrow">
+                <SectionHeader num="01 — HISTORY & CULTURE" ja="History and Culture of Hawkers" en="From Street Hawkers to UNESCO Heritage" compact={isMobile} />
+                <img src={HISTORY_IMG} alt="Historic hawker signboard" className="section-photo" style={sectionPhotoStyle} />
+
+                <div className="metric-grid">
+                  {[["110+","Hawker centres"],["~13,000","Licensed stalls"],["S$3–6","Typical meal"],["3rd gen","Many famous stalls continue in families"]].map(([v,l]) => (
+                    <div key={l} style={{ border: `1px solid #222`, padding: isMobile ? "14px 12px" : "18px 16px", background: "#111" }}>
+                      <div style={{ fontFamily: "sans-serif", fontSize: isMobile ? 22 : 30, fontWeight: 700, color: GOLD, lineHeight: 1 }}>{v}</div>
+                      <div style={{ fontFamily: "sans-serif", fontSize: 10, color: "#555", letterSpacing: 1, marginTop: 4 }}>{l}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="timeline-wrap">
+                  <p style={{ ...body, marginBottom: 36 }}>
+                    Singapore’s hawker culture began with the mobile food trade brought by migrant workers in the 19th century. People from China, the Malay world, and India sold familiar dishes from home on the streets, laying the foundation for Singapore’s multicultural food scene.
+                  </p>
+
+                  {[
+                    { year: "1800s", title: "The rise of migrant street hawkers", text: "After Singapore was established as a port in 1819, large numbers of migrant workers arrived. Chinese, Malay, and Indian hawkers began selling food on the streets, creating the base of a uniquely multicultural dining culture." },
+                    { year: "1907", title: "Early regulation and hawker shelters", text: "As sanitation concerns grew, the colonial government pushed hawkers away from open streets. In 1908, John Polglase proposed sheltered facilities for hawkers, and early centres such as Kreta Ayer followed." },
+                    { year: "1968–72", title: "Mass relocation led by the state", text: "After independence, the government launched a nationwide registration and relocation drive. Under Lim Kim San, hawker centre construction accelerated, and 54 centres were built between 1974 and 1979." },
+                    { year: "1980s", title: "The end of street hawking", text: "By 1986, more than 100 permanent hawker centres were in place and about 18,000 former street hawkers had relocated. Many dishes now seen as Singapore icons, including Chilli Crab and Hokkien Mee, became firmly established in this period." },
+                    { year: "2001", title: "Hawker Centres Upgrading Programme", text: "A programme to upgrade older hawker centres began, alongside efforts to support succession and rental assistance. The goal was to help the culture continue into the next generation." },
+                    { year: "2020", title: "Added to UNESCO’s heritage list", text: "Singapore’s hawker culture was inscribed on UNESCO’s Representative List after drawing support from more than 850,000 signatures. It marked global recognition of hawker culture as a symbol of multicultural coexistence." },
+                  ].map(item => <TLItem key={item.year} {...item} compact={isMobile} />)}
+
+                  <div className="history-box" style={{ border: `1px solid ${GOLD}`, padding: isMobile ? "16px 14px" : "22px 20px", marginTop: 16 }}>
+                    <div style={infoBoxTitle}>Iconic Dishes</div>
+                    <p style={{ fontSize: isMobile ? 12 : 13, color: MUTED, lineHeight: 1.8, marginBottom: 12 }}>
+                      Singapore’s hawker food reflects a rich mix of Chinese, Malay, Indian, and Peranakan traditions. The next section introduces the dishes, their roots, and why they matter.
+                    </p>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {["Hainanese Chicken Rice","Char Kway Teow","Laksa","Satay","Nasi Lemak","Chilli Crab","Roti Prata","Hokkien Mee","Rojak","Bak Kut Teh","Kaya Toast","Fish Head Curry"].map(d => (
+                        <span key={d} style={{ border: `1px solid #2a2a2a`, color: MUTED, fontSize: 11, padding: "3px 8px" }}>{d}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="dishes" className="section-pad section-alt">
+              <div className="content-wrap">
+                <SectionHeader num="02 — ICONIC DISHES" ja="Guide to Iconic Dishes" en="Singapore's Most Beloved Hawker Dishes — Origins & Stories" compact={isMobile} />
+
+                {DISHES_DATA.map((cat, ci) => (
+                  <div key={ci} className="dish-category">
+                    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, paddingBottom: 12, borderBottom: `2px solid ${cat.color}33` }}>
+                      <div style={{ width: 4, height: 24, background: cat.color, borderRadius: 2, flexShrink: 0 }} />
+                      <div style={{ fontFamily: "sans-serif", fontSize: isMobile ? 12 : 13, fontWeight: 700, letterSpacing: 2, color: cat.color, textTransform: "uppercase" }}>
+                        {cat.category}
+                      </div>
+                    </div>
+
+                    <div className="dish-grid">
+                      {cat.items.map((dish, di) => (
+                        <div key={di} className="dish-card">
+                          <div className="dish-card-inner">
+                            <div className="dish-image-wrap">
+                              <img src={dish.img} alt={dish.name} className="dish-image" />
+                              <div style={{ position: "absolute", top: 12, right: 12, background: "rgba(13,13,13,0.85)", border: `1px solid ${GOLD}`, color: GOLD, fontFamily: "sans-serif", fontSize: 11, padding: "3px 10px", letterSpacing: 1 }}>
+                                {dish.price}
+                              </div>
+                              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(to top, rgba(13,13,13,0.95) 0%, transparent 100%)", padding: isMobile ? "16px 14px 12px" : "20px 18px 14px" }}>
+                                <div style={{ fontFamily: "sans-serif", fontSize: 10, letterSpacing: 2, color: cat.color, marginBottom: 4, textTransform: "uppercase" }}>
+                                  Origin
+                                </div>
+                                <div style={{ fontFamily: "sans-serif", fontSize: isMobile ? 11 : 12, fontWeight: 700, color: WHITE, letterSpacing: 1 }}>
+                                  {dish.origin}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div style={{ padding: isMobile ? "14px 14px" : "24px 26px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                              <div style={{ marginBottom: 8 }}>
+                                <div style={{ fontSize: isMobile ? 15 : 22, fontWeight: 700, lineHeight: 1.3 }}>{dish.name}</div>
+                                <div style={{ fontFamily: "'Georgia',serif", fontStyle: "italic", fontSize: isMobile ? 11 : 14, color: "#555", marginTop: 4 }}>{dish.en}</div>
+                              </div>
+                              <p style={{ fontSize: isMobile ? 12 : 14, lineHeight: 1.95, color: MUTED, margin: 0 }}>
+                                {dish.desc}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section id="rules" className="section-pad section-alt">
+              <div className="content-wrap narrow">
+                <SectionHeader num="03 — REGULATIONS" ja="Rules and Practical Notes for Hawker Operations" en="How to Become a Licensed Hawker in Singapore" compact={isMobile} />
+                <img src={RULES_IMG} alt="Hawker stall at a food centre" className="section-photo" style={sectionPhotoStyle} />
+                <p style={{ ...body, marginBottom: 28 }}>
+                  Government-run hawker centres in Singapore are strictly regulated by the <span style={{ color: GOLD }}>National Environment Agency (NEA)</span> and the <span style={{ color: GOLD }}>Singapore Food Agency (SFA)</span>.
+                </p>
+
+                <div className="rules-grid">
+                  {[
+                    { t: "Join the tender", tag: "Monthly, usually 13th–26th / via e-Tender", b: "Apply through NEA’s monthly tender process using SingPass. Bidders submit the monthly rent they are willing to pay, and the highest qualifying bid wins." },
+                    { t: "Check eligibility", tag: "Core requirements", b: "Applicants must be Singapore citizens or permanent residents, aged 21 or above, and must not already hold two NEA-managed stalls." },
+                    { t: "Complete food safety training", tag: "Required for all food handlers", b: "All food handlers must complete an SSG-recognised food safety course, typically with six hours of lessons and a 1.5-hour assessment." },
+                    { t: "Sign the tenancy and secure licences", tag: "Food Stall Licence: S$32/year", b: "After a successful bid, the tenant signs with NEA and obtains the food stall licence from SFA. Additional approvals, such as halal certification or a liquor licence, may also be needed." },
+                    { t: "Start operations and stay compliant", tag: "A–D hygiene grading", b: "Once operations begin, stalls undergo regular hygiene inspections. A score of 85% or above earns Grade A, and the grade must be displayed at the stall." },
+                  ].map((r, i) => (
+                    <div key={i} style={{ border: `1px solid #222`, background: "#111", padding: isMobile ? "16px 14px" : "20px 18px", display: "flex", gap: 14 }}>
+                      <div style={{ fontFamily: "sans-serif", fontSize: isMobile ? 22 : 28, color: GOLD, flexShrink: 0, lineHeight: 1, fontWeight: 700, paddingTop: 2 }}>{i + 1}</div>
+                      <div style={{ minWidth: 0 }}>
+                        <div style={{ fontSize: isMobile ? 13 : 14, fontWeight: 700, marginBottom: 5 }}>{r.t}</div>
+                        <div style={{ fontFamily: "sans-serif", fontSize: 9, letterSpacing: 1, border: `1px solid #3a3a3a`, color: "#666", display: "inline-block", padding: "2px 8px", marginBottom: 7 }}>
+                          {r.tag}
+                        </div>
+                        <div style={small}>{r.b}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="important-box" style={{ border: `1px solid #2A2000`, background: "#0F0C00", padding: isMobile ? "14px 14px" : "22px 22px", marginTop: 24 }}>
+                  <div style={infoBoxTitle}>⚠ Key notes</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                    {[
+                      { t: "Personally operate the stall", b: "The stallholder is expected to work at the stall for at least four hours a day. Proxy operation is limited to family members and usually takes four to six weeks to arrange." },
+                      { t: "Subletting is prohibited", b: "Subletting an NEA-managed hawker stall is not allowed. Breaches can lead to termination and disqualification from future tenders." },
+                      { t: "How rent works in the first three years", b: "The tendered rent applies for the first three years. On renewal, it is adjusted to the assessed market rent. Rules to discourage excessively high bids were revised in November 2024." },
+                      { t: "Mandatory tray return (from 2021)", b: "Returning trays and used crockery is mandatory. The first breach draws a written warning; the second can lead to a S$300 fine." },
+                    ].map((r, i) => (
+                      <div key={i} style={{ borderLeft: `2px solid ${GOLD}`, paddingLeft: 12 }}>
+                        <div style={{ fontSize: isMobile ? 12 : 13, fontWeight: 700, marginBottom: 4 }}>{r.t}</div>
+                        <div style={small}>{r.b}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="why" className="section-pad">
+              <div className="content-wrap narrow">
+                <SectionHeader num="04 — AFFORDABILITY" ja="Why Is Hawker Food So Affordable?" en="The Economics Behind Singapore's Affordable Street Food" compact={isMobile} />
+                <img src={CHEAP_IMG} alt="Hawker centre dining scene" className="section-photo" style={sectionPhotoStyle} />
+
+                <div className="price-box" style={{ border: `1px solid #222`, padding: isMobile ? "16px 14px" : "22px 20px", marginBottom: 20 }}>
+                  <div style={infoBoxTitle}>Price Comparison</div>
+                  {[
+                    { label: "Hawker centre (NEA-managed)", price: "S$3–6", w: 1, color: GOLD },
+                    { label: "Coffee shop (private)", price: "S$5–9", w: 1.5, color: "#8B6914" },
+                    { label: "Food court (mall)", price: "S$8–14", w: 2.2, color: "#5D4037" },
+                    { label: "Restaurant", price: "S$15–30+", w: 3.5, color: "#37474F" },
+                  ].map(p => (
+                    <div key={p.label} style={{ marginBottom: 12 }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", fontSize: isMobile ? 11 : 12, color: MUTED, marginBottom: 4 }}>
+                        <span>{p.label}</span>
+                        <span style={{ color: p.color, fontWeight: 700, flexShrink: 0, marginLeft: 8 }}>{p.price}</span>
+                      </div>
+                      <div style={{ height: 4, background: "#1A1A1A", borderRadius: 2 }}>
+                        <div style={{ height: "100%", width: `${(p.w / 3.5) * 100}%`, background: p.color, borderRadius: 2 }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {[
+                  { icon: "🏛️", t: "1) State-built centres and public land support", b: "NEA-managed hawker centres do not pass full land and construction costs on to stall rents. Compared with private coffee shops, where rents can exceed S$9,000 a month, the median rent for an NEA-managed stall was about S$1,800 in 2023." },
+                  { icon: "💰", t: "2) Subsidised rent schemes", b: "Around 30% of first-generation hawkers still receive subsidised rent, in some cases as low as S$192–S$384 per month." },
+                  { icon: "🌱", t: "3) Incubation stall programmes", b: "Some programmes offer temporary rent support for new entrants, lowering the barrier for younger entrepreneurs to try hawker operations." },
+                  { icon: "⚡", t: "4) Productivity grants", b: "Grants that support automation and cashless payments help hawkers improve productivity and reduce labour pressure. Productive Hawker Centre initiatives are a good example." },
+                  { icon: "🍽️", t: "5) Specialisation and family continuity", b: "Many hawkers specialise in one dish and refine it over decades. Family-run operations also help keep labour costs lower." },
+                  { icon: "🏅", t: "6) SG60 rent rebate (2025)", b: "To mark Singapore’s 60th year, rent rebates were granted across government-managed hawker stalls in 2025, reflecting continued public support for the culture." },
+                ].map((r, i) => (
+                  <div key={i} style={{ borderBottom: `1px solid ${LINE}`, padding: "16px 0", display: "flex", gap: 14 }}>
+                    <div style={{ fontSize: 20, flexShrink: 0, paddingTop: 2 }}>{r.icon}</div>
+                    <div>
+                      <div style={{ fontSize: isMobile ? 13 : 14, fontWeight: 700, marginBottom: 5 }}>{r.t}</div>
+                      <div style={small}>{r.b}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <section id="payment" className="section-pad section-alt">
+              <div className="content-wrap narrow">
+                <SectionHeader num="05 — PAYMENT METHODS" ja="Payment Methods at Hawker Centres" en="How to Pay at Singapore Hawker Centres" compact={isMobile} />
+                <img src={PAY_IMG} alt="Drink stall at a hawker centre" className="section-photo" style={sectionPhotoStyle} />
+                <p style={{ ...body, marginBottom: 28 }}>
+                  Singapore is one of the world’s most cashless societies, yet <span style={{ color: GOLD }}>cash is still widely used at hawker centres</span>. At the same time, the Hawkers Go Digital (HGD) programme has accelerated QR payments.
+                </p>
+
+                <div className="payment-grid">
+                  {[
+                    { icon: "💵", t: "Cash (SGD)", b: "The most reliable option. It is wise to carry around S$50–100. Older stalls and traditional vendors may still be cash only.", tourist: true, local: true },
+                    { icon: "📱", t: "SGQR / PayNow", b: "A unified QR code introduced in 2018. Payments are made by scanning with a phone, mainly for people with local bank accounts.", tourist: false, local: true },
+                    { icon: "🟢", t: "PayLah! (DBS)", b: "A DBS/POSB payment app linked to PayNow. It works with many hawker QR codes and is widely used by locals.", tourist: false, local: true },
+                    { icon: "🔵", t: "NETS / NETSPay", b: "A local payment system similar in spirit to debit-card usage. It can be used via QR code with linked bank cards.", tourist: false, local: true },
+                    { icon: "🚕", t: "GrabPay", b: "Grab’s wallet can work with SGQR payments and is relatively easier for international visitors to use.", tourist: true, local: true },
+                    { icon: "🍎", t: "Apple Pay / Google Pay", b: "Acceptance is growing at larger hawker centres and newer stalls. Some banks also route these wallets through PayNow-linked systems.", tourist: true, local: true },
+                    { icon: "💳", t: "Credit cards (Visa/Mastercard)", b: "Accepted only at some stalls. Visitor-heavy centres such as Lau Pa Sat are more likely to take cards. No extra fee is usually charged.", tourist: true, local: true },
+                    { icon: "🚌", t: "EZ-Link card", b: "A prepaid transport card for the MRT and buses. Some hawker stalls accept it too. It can be purchased at stations.", tourist: true, local: true },
+                    { icon: "🇨🇳", t: "Alipay / WeChat Pay", b: "Common in larger retail settings, but still limited at independent hawker stalls.", tourist: true, local: false },
+                  ].map((p, i) => (
+                    <div key={i} style={{ border: `1px solid #222`, padding: isMobile ? "14px 14px" : "18px 18px", background: "#0F0F0F", display: "flex", gap: 14, alignItems: "flex-start" }}>
+                      <div style={{ fontSize: 22, flexShrink: 0 }}>{p.icon}</div>
+                      <div style={{ minWidth: 0, flex: 1 }}>
+                        <div style={{ fontSize: isMobile ? 13 : 14, fontWeight: 700, marginBottom: 4 }}>{p.t}</div>
+                        <div style={{ ...small, marginBottom: 8 }}>{p.b}</div>
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                          <span style={{ fontSize: 9, padding: "2px 7px", fontFamily: "sans-serif", border: `1px solid ${p.local ? "#3A7D44" : "#6b2020"}`, color: p.local ? "#5DB97A" : "#C0392B" }}>
+                            Locals {p.local ? "✓" : "✗"}
+                          </span>
+                          <span style={{ fontSize: 9, padding: "2px 7px", fontFamily: "sans-serif", border: `1px solid ${p.tourist ? "#3A7D44" : "#5B4900"}`, color: p.tourist ? "#5DB97A" : GOLD }}>
+                            Visitors {p.tourist ? "✓" : "△"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{ border: `1px solid #2A2000`, background: "#0F0C00", padding: isMobile ? "14px 14px" : "22px 22px", marginTop: 24 }}>
+                  <div style={infoBoxTitle}>Advice for visitors</div>
+                  <div style={{ fontSize: isMobile ? 12 : 13, lineHeight: 2, color: "#999" }}>
+                    📌 <strong style={{ color: WHITE }}>Carry S$50–100 in cash</strong>. More local hawker centres may still have limited cashless options.<br />
+                    📌 Under the <strong style={{ color: WHITE }}>HGD programme</strong>, government support for transaction costs helped SGQR spread quickly.<br />
+                    📌 As <strong style={{ color: WHITE }}>SGQR+</strong> expands, more hawkers are able to support multiple payment services through a single QR code.
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="top10" className="section-pad">
+              <div className="content-wrap narrow">
+                <SectionHeader num="06 — RECOMMENDED HAWKER CENTRES" ja={"Top 10 Hawker Centres\nfor International Visitors"} en="Top 10 Hawker Centres for International Visitors" compact={isMobile} />
+
+                <div className="top10-grid">
+                  {HAWKER_TOP10.map((h, i) => (
+                    <div
+                      key={i}
+                      style={{ border: `1px solid ${openCard === i ? GOLD : "#1E1E1E"}`, background: openCard === i ? "#111008" : "#0A0A0A", cursor: "pointer", transition: "border .25s, background .25s" }}
+                      onClick={() => setOpenCard(openCard === i ? null : i)}
+                    >
+                      <div style={{ padding: isMobile ? "14px 14px" : "18px 20px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
+                          <div style={{ display: "flex", alignItems: "baseline", gap: 10, minWidth: 0, flex: 1 }}>
+                            <div style={{ fontFamily: "sans-serif", fontSize: isMobile ? 20 : 30, fontWeight: 700, color: GOLD, lineHeight: 1, flexShrink: 0 }}>
+                              {h.num}
+                            </div>
+                            <div style={{ minWidth: 0 }}>
+                              <div style={{ fontSize: isMobile ? 13 : 16, fontWeight: 700, lineHeight: 1.3 }}>{h.name}</div>
+                              <div style={{ fontFamily: "sans-serif", fontSize: 9, letterSpacing: 1, color: "#555", marginTop: 3, textTransform: "uppercase" }}>
+                                📍 {h.area}
+                              </div>
+                            </div>
+                          </div>
+                          <div style={{ fontSize: 20, flexShrink: 0 }}>{h.icon}</div>
+                        </div>
+                        <div style={{ border: `1px solid ${GOLD}`, color: GOLD, fontSize: 9, padding: "2px 8px", letterSpacing: 1, fontFamily: "sans-serif", display: "inline-block", marginTop: 10, lineHeight: 1.6 }}>
+                          {h.tag}
+                        </div>
+                        {openCard === i && (
+                          <div style={{ borderTop: `1px solid #2A2000`, paddingTop: 12, marginTop: 10 }}>
+                            <div style={{ fontSize: isMobile ? 12 : 13, lineHeight: 1.9, color: MUTED }}>{h.note}</div>
+                          </div>
+                        )}
+                        <div style={{ fontFamily: "sans-serif", fontSize: 9, color: "#444", marginTop: 8, letterSpacing: 1 }}>
+                          {openCard === i ? "▲ Close" : "▼ View details"}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="visit-strategy" style={{ border: `1px solid #1A1A1A`, padding: isMobile ? "16px 14px" : "20px 22px", marginTop: 24 }}>
+                  <div style={infoBoxTitle}>Visit strategy for travellers</div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                    {[
+                      ["🌅 Best for breakfast and lunch", "Maxwell Food Centre and Tiong Bahru Market are especially strong in the morning. Popular stalls often draw lines early, and some close by around 2 pm. Arriving 30 minutes before opening is ideal."],
+                      ["🌙 Best for dinner and night visits", "Lau Pa Sat for its late-night Satay Street, Newton Food Centre for stronger evening energy, and Chomp Chomp for excellent charcoal-grilled BBQ."],
+                      ["🌊 Best for a special experience", "East Coast Lagoon for seaside dining, Lau Pa Sat for its Victorian setting, and Tekka Centre for the Little India atmosphere."],
+                    ].map(([t, b]) => (
+                      <div key={t}>
+                        <div style={{ fontSize: isMobile ? 12 : 13, fontWeight: 700, marginBottom: 4 }}>{t}</div>
+                        <div style={small}>{b}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="tips" className="section-pad section-alt">
+              <div className="content-wrap narrow">
+                <SectionHeader num="07 — TRAVELLER'S TIPS" ja={"Complete Hawker Guide\nfor Travellers"} en="Essential Tips for First-Time Hawker Centre Visitors" compact={isMobile} />
+                <img src={FOOD_IMG} alt="Interior of Lau Pa Sat" className="section-photo" style={sectionPhotoStyle} />
+
+                <div className="tips-box" style={{ border: `1px solid #222`, padding: isMobile ? "16px 14px" : "22px 20px", marginBottom: 20 }}>
+                  <div style={infoBoxTitle}>Basic hawker etiquette</div>
+                  {[
+                    ["Return your tray after eating", "This has been mandatory since 2021. Return your tray and crockery to the tray station. Breaches can lead to fines."],
+                    ["Choping", "A local habit of reserving a seat by leaving tissues or an umbrella on the table."],
+                    ["Queue properly", "Popular stalls often have long lines. Do not cut in. In many cases, a queue is a good sign."],
+                    ["Smoke only in designated areas", "Smoking is not allowed in dining areas. Use the designated smoking points."],
+                  ].map(([t, b]) => (
+                    <div key={t} style={{ borderBottom: `1px solid ${LINE}`, padding: "10px 0" }}>
+                      <div style={{ fontSize: isMobile ? 12 : 13, fontWeight: 700, marginBottom: 3 }}>✓ {t}</div>
+                      <div style={{ ...small, fontSize: isMobile ? 11 : 12 }}>{b}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="tips-grid">
+                  {[
+                    { icon: "🕐", t: "Best time to visit", b: "Peak times are usually 12–1 pm for lunch and 6–8 pm for dinner. Quieter windows include right after opening, 2–5 pm, and after 8 pm. Famous stalls may attract queues even before opening." },
+                    { icon: "💰", t: "Budget guide", b: "A typical meal costs S$4–7. Drinks such as kopi or teh are usually S$1–2. Even with dessert, a full meal can often stay under S$10 per person. Chilli Crab and similar dishes are much pricier and usually sold at market rate." },
+                    { icon: "🗺️", t: "Getting there by MRT", b: "Many major hawker centres are within walking distance of MRT stations, including Maxwell, Lau Pa Sat, Newton, and Tiong Bahru. Grab is also convenient." },
+                    { icon: "🌡️", t: "Prepare for heat and rain", b: "Singapore is hot year-round. Open-air hawker centres can feel sunny or wet depending on the weather, so a hat and sunscreen help. Tropical downpours often pass quickly." },
+                    { icon: "📸", t: "Photo etiquette", b: "Food photos are generally fine. If you want to photograph a stallholder, ask first, and avoid blocking walkways when it is busy." },
+                    { icon: "🥜", t: "Allergies and dietary needs", b: "If you have allergies to nuts, seafood, or gluten, always check before ordering. Stalls with halal certification follow Islamic dietary rules." },
+                    { icon: "🗣️", t: "Singlish and ordering tips", b: "“One [dish name], please” works well. Local coffee is kopi, tea is teh, and pointing at the menu is perfectly acceptable." },
+                    { icon: "🏅", t: "Michelin and Bib Gourmand", b: "Singapore’s Michelin Guide includes many hawker stalls. A Bib Gourmand listing signals strong quality and good value. Tian Tian Chicken Rice at Maxwell is one of the best-known names." },
+                  ].map((t, i) => (
+                    <div key={i} style={{ display: "flex", gap: 14, padding: "14px 0", borderBottom: `1px solid ${LINE}` }}>
+                      <div style={{ fontSize: 20, flexShrink: 0, width: 28 }}>{t.icon}</div>
+                      <div>
+                        <div style={{ fontSize: isMobile ? 13 : 14, fontWeight: 700, marginBottom: 4 }}>{t.t}</div>
+                        <div style={small}>{t.b}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <footer style={{ padding: isMobile ? "36px 0 20px" : "44px 0 28px", borderTop: `1px solid #1A1A1A` }}>
+              <div className="footer-inner">
+                <div style={{ fontFamily: "'Georgia',serif", fontStyle: "italic", fontSize: isMobile ? 18 : 22, color: GOLD, marginBottom: 6 }}>
+                  Hawker Culture Singapore
+                </div>
+                <div style={{ fontFamily: "sans-serif", fontSize: 9, letterSpacing: 2, color: "#444", marginBottom: 16 }}>
+                  UNESCO Intangible Cultural Heritage of Humanity — 2020
+                </div>
+                <div style={{ fontFamily: "sans-serif", fontSize: 10, color: "#333", lineHeight: 1.8 }}>
+                  This page is based on research, but hawker centre opening hours and stall details may change. Please check the latest information on the official NEA website or on site.<br />
+                  Images stored externally.
+                </div>
+              </div>
+            </footer>
+          </div>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
